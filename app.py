@@ -1,16 +1,32 @@
 from flask import Flask, request, jsonify
 import redis
 import pickle
+
+from pymemcache import HashClient
 from pymemcache.client.base import Client
 import requests
 import json
 
 # Initialize Flask app
 app = Flask(__name__)
+with open("config.json") as config_file:
+    config = json.load(config_file)
 
 # Redis and Memcached clients
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
-memcache_client = Client(('localhost', 11211))
+redis_client = redis.StrictRedis(
+    host=config["redis"]["host"],
+    port=config["redis"]["port"],
+    db=config["redis"]["db"]
+)
+
+# Memcached client using multiple servers
+memcache_servers = config["memcached"]["servers"]
+memcache_client = HashClient(memcache_servers)
+
+# API details for encryption and decryption
+ENCRYPTION_API_URL = config["encryption_api"]["url"]['encrypt']
+DECRYPTION_API_URL = config["encryption_api"]["url"]['decrypt']
+API_TOKEN = config["encryption_api"]["token"]
 
 # API details for encryption and decryption
 
