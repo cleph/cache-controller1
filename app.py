@@ -13,9 +13,7 @@ redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 memcache_client = Client(('localhost', 11211))
 
 # API details for encryption and decryption
-ENCRYPTION_API_URL = "https://enc.hardzon.com/api/encrypt"
-DECRYPTION_API_URL = "https://enc.hardzon.com/api/decrypt"
-API_TOKEN = "f34254edcew_68/dY1jndWr!zxX3Q>PP"
+
 
 # Helper function for encryption and decryption using external API
 def encrypt_decrypt(text, action):
